@@ -10,10 +10,17 @@ export default auth((req) => {
   const isAuthPage =
     nextUrl.pathname === "/login" || nextUrl.pathname === "/register";
 
-  if (isAuthPage && session) {
-    return NextResponse.redirect(new URL("/dashboard", nextUrl));
+  // Las páginas de autenticación deben ser accesibles sin sesión.
+  // Si el usuario ya está autenticado, lo enviamos al dashboard.
+  if (isAuthPage) {
+    if (session) {
+      return NextResponse.redirect(new URL("/dashboard", nextUrl));
+    }
+
+    return NextResponse.next();
   }
 
+  // El resto de rutas incluidas en el matcher son privadas.
   if (!session) {
     const loginUrl = new URL("/login", nextUrl);
     loginUrl.searchParams.set("callbackUrl", nextUrl.pathname);
