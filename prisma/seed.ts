@@ -1,13 +1,27 @@
-import { PrismaClient, Role, ServiceType } from "@prisma/client";
+import { PlanTier, PrismaClient, Role, ServiceType } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 const plans = [
   {
-    slug: "mc-iron",
-    name: "Iron",
+    slug: "mc-coal",
+    name: "Budget Coal",
     type: ServiceType.MINECRAFT,
+    tier: PlanTier.BUDGET,
+    description: "Survival vanilla para una partida entre amigos.",
+    priceCents: 199,
+    cpuCores: 1,
+    ramMb: 1024,
+    diskMb: 10240,
+    maxPlayers: 10,
+    features: ["Backups diarios", "Consola en vivo"],
+  },
+  {
+    slug: "mc-iron",
+    name: "Budget Iron",
+    type: ServiceType.MINECRAFT,
+    tier: PlanTier.BUDGET,
     description: "Para jugar con amigos y mods ligeros.",
     priceCents: 399,
     cpuCores: 1,
@@ -18,8 +32,9 @@ const plans = [
   },
   {
     slug: "mc-diamond",
-    name: "Diamond",
+    name: "Premium Diamond",
     type: ServiceType.MINECRAFT,
+    tier: PlanTier.PREMIUM,
     description: "Comunidades medianas con plugins y mundos grandes.",
     priceCents: 899,
     cpuCores: 2,
@@ -30,8 +45,9 @@ const plans = [
   },
   {
     slug: "mc-netherite",
-    name: "Netherite",
+    name: "Premium Netherite",
     type: ServiceType.MINECRAFT,
+    tier: PlanTier.PREMIUM,
     description: "Redes y modpacks pesados con CPU dedicada.",
     priceCents: 1799,
     cpuCores: 4,
@@ -44,6 +60,7 @@ const plans = [
     slug: "discord-starter",
     name: "Bot Starter",
     type: ServiceType.DISCORD_BOT,
+    tier: PlanTier.BUDGET,
     description: "Bots pequeños con comandos y eventos básicos.",
     priceCents: 199,
     cpuCores: 0.5,
@@ -55,6 +72,7 @@ const plans = [
     slug: "discord-pro",
     name: "Bot Pro",
     type: ServiceType.DISCORD_BOT,
+    tier: PlanTier.PREMIUM,
     description: "Bots con base de datos y varios shards.",
     priceCents: 599,
     cpuCores: 1,
@@ -66,6 +84,7 @@ const plans = [
     slug: "telegram-starter",
     name: "Telegram Starter",
     type: ServiceType.TELEGRAM_BOT,
+    tier: PlanTier.BUDGET,
     description: "Long polling para bots de uso personal.",
     priceCents: 199,
     cpuCores: 0.5,
@@ -77,6 +96,7 @@ const plans = [
     slug: "telegram-pro",
     name: "Telegram Pro",
     type: ServiceType.TELEGRAM_BOT,
+    tier: PlanTier.PREMIUM,
     description: "Webhooks con TLS gestionado y alta disponibilidad.",
     priceCents: 549,
     cpuCores: 1,

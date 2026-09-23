@@ -103,7 +103,7 @@ export default async function ServiceDetailPage({
           <ul className="mt-4 space-y-3 text-sm">
             {service.events.map((event) => (
               <li key={event.id} className="flex items-start gap-3">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400" />
                 <div>
                   <p className="text-slate-200">{event.message}</p>
                   <p className="text-xs text-slate-500">

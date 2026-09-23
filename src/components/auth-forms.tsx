@@ -6,7 +6,7 @@ import { loginAction, registerAction, type FormState } from "@/app/actions/auth"
 import { SubmitButton } from "@/components/submit-button";
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-2.5 text-sm outline-none transition placeholder:text-slate-500 focus:border-emerald-400/60";
+  "w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-2.5 text-sm outline-none transition placeholder:text-slate-500 focus:border-cyan-400/60";
 
 function ErrorMessage({ state }: { state: FormState }) {
   if (!state?.error) return null;
@@ -57,7 +57,7 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
       </SubmitButton>
       <p className="text-center text-sm text-slate-400">
         ¿No tienes cuenta?{" "}
-        <Link href="/register" className="text-emerald-400 hover:underline">
+        <Link href="/register" className="text-cyan-400 hover:underline">
           Regístrate
         </Link>
       </p>
@@ -127,7 +127,7 @@ export function RegisterForm() {
       </SubmitButton>
       <p className="text-center text-sm text-slate-400">
         ¿Ya tienes cuenta?{" "}
-        <Link href="/login" className="text-emerald-400 hover:underline">
+        <Link href="/login" className="text-cyan-400 hover:underline">
           Entrar
         </Link>
       </p>

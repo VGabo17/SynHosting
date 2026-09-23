@@ -32,7 +32,7 @@ export default async function AdminServicesPage() {
                 <td className="py-3">
                   <Link
                     href={`/dashboard/services/${service.id}`}
-                    className="hover:text-emerald-300"
+                    className="hover:text-cyan-300"
                   >
                     {service.name}
                   </Link>

@@ -2,11 +2,8 @@ import Link from "next/link";
 import {
   Activity,
   Bot,
-  Check,
   Cpu,
-  Gauge,
   Globe2,
-  HardDrive,
   LifeBuoy,
   Send,
   Server,
@@ -16,14 +13,10 @@ import {
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { Logo } from "@/components/brand";
-import {
-  SERVICE_TYPE_META,
-  SERVICE_TYPES,
-  formatDisk,
-  formatPrice,
-  formatRam,
-} from "@/lib/services";
-import type { Plan, ServiceType } from "@prisma/client";
+import { PlanCard } from "@/components/plan-card";
+import { SiteHeader } from "@/components/site-header";
+import { PLAN_CATEGORIES, SERVICE_TYPE_META, SERVICE_TYPES } from "@/lib/services";
+import type { ServiceType } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
@@ -67,64 +60,6 @@ const features = [
   },
 ];
 
-function PlanCard({ plan, highlighted }: { plan: Plan; highlighted: boolean }) {
-  const meta = SERVICE_TYPE_META[plan.type];
-
-  return (
-    <div
-      className={`relative flex flex-col rounded-2xl border p-6 ${
-        highlighted
-          ? "border-emerald-400/40 bg-emerald-400/[0.06]"
-          : "border-white/10 bg-white/[0.03]"
-      }`}
-    >
-      {highlighted && (
-        <span className="absolute -top-3 left-6 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 px-3 py-1 text-xs font-semibold text-slate-950">
-          Más popular
-        </span>
-      )}
-      <span
-        className={`w-fit rounded-full px-2.5 py-1 text-xs font-medium ring-1 ${meta.badge}`}
-      >
-        {meta.label}
-      </span>
-      <h3 className="mt-4 text-xl font-semibold">{plan.name}</h3>
-      <p className="mt-1 text-sm text-slate-400">{plan.description}</p>
-      <p className="mt-5 flex items-baseline gap-1">
-        <span className="text-3xl font-bold">{formatPrice(plan.priceCents)}</span>
-        <span className="text-sm text-slate-400">/mes</span>
-      </p>
-      <ul className="mt-5 space-y-2 text-sm text-slate-300">
-        <li className="flex items-center gap-2">
-          <Cpu className="h-4 w-4 text-emerald-400" /> {plan.cpuCores} vCPU
-        </li>
-        <li className="flex items-center gap-2">
-          <Gauge className="h-4 w-4 text-emerald-400" /> {formatRam(plan.ramMb)} RAM
-        </li>
-        <li className="flex items-center gap-2">
-          <HardDrive className="h-4 w-4 text-emerald-400" />{" "}
-          {formatDisk(plan.diskMb)} NVMe
-        </li>
-        {plan.features.map((feature) => (
-          <li key={feature} className="flex items-center gap-2">
-            <Check className="h-4 w-4 text-emerald-400" /> {feature}
-          </li>
-        ))}
-      </ul>
-      <Link
-        href="/register"
-        className={`mt-6 rounded-xl px-4 py-2.5 text-center text-sm font-semibold transition ${
-          highlighted
-            ? "bg-gradient-to-r from-emerald-400 to-cyan-400 text-slate-950 hover:opacity-90"
-            : "border border-white/15 text-slate-100 hover:bg-white/5"
-        }`}
-      >
-        Contratar
-      </Link>
-    </div>
-  );
-}
-
 export default async function LandingPage() {
   const [session, plans] = await Promise.all([
     auth(),
@@ -134,61 +69,28 @@ export default async function LandingPage() {
     }),
   ]);
 
-  const plansByType = SERVICE_TYPES.map((type) => ({
-    type,
-    plans: plans.filter((plan) => plan.type === type),
+  const plansByCategory = PLAN_CATEGORIES.map((category) => ({
+    category,
+    plans: plans.filter(
+      (plan) =>
+        plan.type === category.type &&
+        (category.tier === null || plan.tier === category.tier),
+    ),
   }));
 
   return (
     <div className="glow-grid min-h-screen">
-      <header className="sticky top-0 z-30 border-b border-white/5 bg-[#05070d]/80 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <Logo />
-          <nav className="hidden items-center gap-8 text-sm text-slate-300 md:flex">
-            <a href="#servicios" className="hover:text-white">
-              Servicios
-            </a>
-            <a href="#planes" className="hover:text-white">
-              Planes
-            </a>
-            <a href="#infraestructura" className="hover:text-white">
-              Infraestructura
-            </a>
-          </nav>
-          <div className="flex items-center gap-3 text-sm">
-            {session?.user ? (
-              <Link
-                href="/dashboard"
-                className="rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 px-4 py-2 font-semibold text-slate-950"
-              >
-                Mi panel
-              </Link>
-            ) : (
-              <>
-                <Link href="/login" className="text-slate-300 hover:text-white">
-                  Entrar
-                </Link>
-                <Link
-                  href="/register"
-                  className="rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 px-4 py-2 font-semibold text-slate-950"
-                >
-                  Crear cuenta
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      </header>
+      <SiteHeader isAuthenticated={Boolean(session?.user)} />
 
       <main>
         <section className="mx-auto max-w-6xl px-6 pt-20 pb-24 text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-300">
+          <span className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-xs font-medium text-cyan-300">
             <Zap className="h-3.5 w-3.5" /> Aprovisionamiento automático en
             segundos
           </span>
           <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-bold tracking-tight sm:text-6xl">
             Hosting para tus{" "}
-            <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-cyan-400 to-violet-500 bg-clip-text text-transparent">
               servidores y bots
             </span>
           </h1>
@@ -200,7 +102,7 @@ export default async function LandingPage() {
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/register"
-              className="rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:opacity-90"
+              className="rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:opacity-90"
             >
               Empezar gratis
             </Link>
@@ -222,7 +124,7 @@ export default async function LandingPage() {
                 key={label}
                 className="rounded-2xl border border-white/10 bg-white/[0.03] p-4"
               >
-                <dt className="text-2xl font-bold text-emerald-400">{value}</dt>
+                <dt className="text-2xl font-bold text-cyan-400">{value}</dt>
                 <dd className="text-xs text-slate-400">{label}</dd>
               </div>
             ))}
@@ -240,10 +142,14 @@ export default async function LandingPage() {
             {SERVICE_TYPES.map((type) => {
               const meta = SERVICE_TYPE_META[type];
               const Icon = typeIcon[type];
+              const category = PLAN_CATEGORIES.find(
+                (item) => item.type === type,
+              );
               return (
-                <div
+                <Link
                   key={type}
-                  className="rounded-2xl border border-white/10 bg-white/[0.03] p-6"
+                  href={`/planes/${category?.slug ?? ""}`}
+                  className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-violet-400/40 hover:bg-white/[0.06]"
                 >
                   <span
                     className={`grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br ${meta.accent} text-slate-950`}
@@ -252,7 +158,7 @@ export default async function LandingPage() {
                   </span>
                   <h3 className="mt-4 text-lg font-semibold">{meta.label}</h3>
                   <p className="mt-2 text-sm text-slate-400">{meta.tagline}</p>
-                </div>
+                </Link>
               );
             })}
           </div>
@@ -263,18 +169,29 @@ export default async function LandingPage() {
           <p className="mt-3 max-w-2xl text-slate-400">
             Sin permanencia. Cambia de plan o cancela cuando quieras.
           </p>
-          {plansByType.map(({ type, plans: typePlans }) =>
-            typePlans.length === 0 ? null : (
-              <div key={type} className="mt-10">
-                <h3 className="text-sm font-semibold uppercase tracking-widest text-slate-400">
-                  {SERVICE_TYPE_META[type].label}
-                </h3>
+          {plansByCategory.map(({ category, plans: categoryPlans }) =>
+            categoryPlans.length === 0 ? null : (
+              <div key={category.slug} className="mt-12">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h3 className="text-sm font-semibold uppercase tracking-widest text-violet-300">
+                    {category.label}
+                  </h3>
+                  <Link
+                    href={`/planes/${category.slug}`}
+                    className="text-sm text-cyan-300 hover:text-cyan-200"
+                  >
+                    Ver detalle →
+                  </Link>
+                </div>
                 <div className="mt-5 grid gap-5 md:grid-cols-3">
-                  {typePlans.map((plan, index) => (
+                  {categoryPlans.map((plan, index) => (
                     <PlanCard
                       key={plan.id}
                       plan={plan}
-                      highlighted={typePlans.length > 1 && index === 1}
+                      highlighted={
+                        categoryPlans.length > 1 &&
+                        index === categoryPlans.length - 1
+                      }
                     />
                   ))}
                 </div>
@@ -299,7 +216,7 @@ export default async function LandingPage() {
                 key={feature.title}
                 className="rounded-2xl border border-white/10 bg-white/[0.03] p-6"
               >
-                <feature.icon className="h-5 w-5 text-emerald-400" />
+                <feature.icon className="h-5 w-5 text-cyan-400" />
                 <h3 className="mt-4 font-semibold">{feature.title}</h3>
                 <p className="mt-2 text-sm text-slate-400">{feature.body}</p>
               </div>
@@ -308,7 +225,7 @@ export default async function LandingPage() {
         </section>
 
         <section className="mx-auto max-w-6xl px-6 py-20">
-          <div className="rounded-3xl border border-emerald-400/20 bg-gradient-to-br from-emerald-400/10 to-cyan-400/5 p-10 text-center">
+          <div className="rounded-3xl border border-cyan-400/20 bg-gradient-to-br from-cyan-400/10 to-violet-500/10 p-10 text-center">
             <h2 className="text-3xl font-bold tracking-tight">
               Lanza tu primer servicio hoy
             </h2>
@@ -318,7 +235,7 @@ export default async function LandingPage() {
             </p>
             <Link
               href="/register"
-              className="mt-8 inline-block rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:opacity-90"
+              className="mt-8 inline-block rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:opacity-90"
             >
               Crear cuenta gratis
             </Link>

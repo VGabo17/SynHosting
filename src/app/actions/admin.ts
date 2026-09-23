@@ -18,6 +18,7 @@ export async function upsertPlanAction(
     name: formData.get("name"),
     slug: formData.get("slug"),
     type: formData.get("type"),
+    tier: formData.get("tier") ?? undefined,
     description: formData.get("description"),
     priceCents: formData.get("priceCents"),
     cpuCores: formData.get("cpuCores"),

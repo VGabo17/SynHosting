@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useTransition } from "react";
-import { Role, ServiceStatus, ServiceType } from "@prisma/client";
+import { PlanTier, Role, ServiceStatus, ServiceType } from "@prisma/client";
 import {
   setServiceStatusAction,
   setUserRoleAction,
@@ -13,10 +13,10 @@ import { SubmitButton } from "@/components/submit-button";
 import { SERVICE_STATUS_META, SERVICE_TYPE_META } from "@/lib/services";
 
 const controlClass =
-  "rounded-lg border border-white/10 bg-slate-950/60 px-2.5 py-1.5 text-xs outline-none focus:border-emerald-400/60";
+  "rounded-lg border border-white/10 bg-slate-950/60 px-2.5 py-1.5 text-xs outline-none focus:border-cyan-400/60";
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-2.5 text-sm outline-none transition placeholder:text-slate-500 focus:border-emerald-400/60";
+  "w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-2.5 text-sm outline-none transition placeholder:text-slate-500 focus:border-cyan-400/60";
 
 export function UserRoleSelect({
   userId,
@@ -98,7 +98,7 @@ export function PlanToggle({
       }
       className={`rounded-lg px-3 py-1.5 text-xs ring-1 transition ${
         isActive
-          ? "bg-emerald-500/10 text-emerald-300 ring-emerald-500/30"
+          ? "bg-cyan-500/10 text-cyan-300 ring-cyan-500/30"
           : "bg-slate-500/10 text-slate-300 ring-slate-500/30"
       }`}
     >
@@ -121,7 +121,7 @@ export function PlanForm() {
         </p>
       )}
       {state?.success && (
-        <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-sm text-emerald-300">
+        <p className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 px-4 py-2.5 text-sm text-cyan-300">
           {state.success}
         </p>
       )}
@@ -140,6 +140,10 @@ export function PlanForm() {
               {meta.label}
             </option>
           ))}
+        </select>
+        <select className={inputClass} name="tier" defaultValue={PlanTier.BUDGET}>
+          <option value={PlanTier.BUDGET}>Budget</option>
+          <option value={PlanTier.PREMIUM}>Premium</option>
         </select>
         <input
           className={inputClass}

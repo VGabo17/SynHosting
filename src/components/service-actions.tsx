@@ -29,7 +29,7 @@ export function ServiceActions({
             ),
           )
         }
-        className="rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:opacity-90 disabled:opacity-50"
+        className="rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:opacity-90 disabled:opacity-50"
       >
         {isRunning ? "Detener" : "Iniciar"}
       </button>

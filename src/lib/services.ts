@@ -1,4 +1,56 @@
-import { ServiceStatus, ServiceType } from "@prisma/client";
+import { PlanTier, ServiceStatus, ServiceType } from "@prisma/client";
+
+export type PlanCategory = {
+  slug: string;
+  label: string;
+  title: string;
+  description: string;
+  type: ServiceType;
+  tier: PlanTier | null;
+};
+
+export const PLAN_CATEGORIES: PlanCategory[] = [
+  {
+    slug: "minecraft-budget",
+    label: "Minecraft Budget",
+    title: "Minecraft Budget",
+    description:
+      "Servidores económicos con recursos compartidos, ideales para survival con amigos y plugins ligeros.",
+    type: ServiceType.MINECRAFT,
+    tier: PlanTier.BUDGET,
+  },
+  {
+    slug: "minecraft-premium",
+    label: "Minecraft Premium",
+    title: "Minecraft Premium",
+    description:
+      "CPU dedicada, backups frecuentes e IP dedicada para redes, modpacks pesados y comunidades grandes.",
+    type: ServiceType.MINECRAFT,
+    tier: PlanTier.PREMIUM,
+  },
+  {
+    slug: "discord",
+    label: "Bot de Discord",
+    title: "Hosting para bots de Discord",
+    description:
+      "Despliega tu bot desde un repositorio Git, con reinicio automático, sharding y variables cifradas.",
+    type: ServiceType.DISCORD_BOT,
+    tier: null,
+  },
+  {
+    slug: "telegram",
+    label: "Bot de Telegram",
+    title: "Hosting para bots de Telegram",
+    description:
+      "Long polling o webhooks con TLS gestionado, métricas y reinicio automático ante fallos.",
+    type: ServiceType.TELEGRAM_BOT,
+    tier: null,
+  },
+];
+
+export function planCategoryFromSlug(slug: string): PlanCategory | null {
+  return PLAN_CATEGORIES.find((category) => category.slug === slug) ?? null;
+}
 
 export const SERVICE_TYPES = [
   ServiceType.MINECRAFT,
@@ -19,21 +71,22 @@ export const SERVICE_TYPE_META: Record<ServiceType, ServiceTypeMeta> = {
     label: "Minecraft",
     slug: "minecraft",
     tagline: "Servidores con CPU dedicada, backups y consola en vivo.",
-    accent: "from-emerald-400 to-lime-300",
-    badge: "bg-emerald-500/10 text-emerald-300 ring-emerald-500/30",
+    accent: "from-cyan-400 to-violet-500",
+    badge: "bg-cyan-500/10 text-cyan-300 ring-cyan-500/30",
   },
   DISCORD_BOT: {
     label: "Bot de Discord",
     slug: "discord",
     tagline: "Despliega tu bot desde Git y mantenlo online 24/7.",
-    accent: "from-indigo-400 to-violet-300",
-    badge: "bg-indigo-500/10 text-indigo-300 ring-indigo-500/30",
+    accent: "from-violet-500 to-fuchsia-400",
+    badge: "bg-violet-500/10 text-violet-300 ring-violet-500/30",
   },
   TELEGRAM_BOT: {
     label: "Bot de Telegram",
     slug: "telegram",
     tagline: "Webhooks o long polling con reinicio automático.",
     accent: "from-sky-400 to-cyan-300",
+
     badge: "bg-sky-500/10 text-sky-300 ring-sky-500/30",
   },
 };
@@ -50,6 +103,7 @@ export const SERVICE_STATUS_META: Record<
   RUNNING: {
     label: "En línea",
     badge: "bg-emerald-500/10 text-emerald-300 ring-emerald-500/30",
+
     dot: "bg-emerald-400",
   },
   STOPPED: {

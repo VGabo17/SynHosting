@@ -42,7 +42,7 @@ export default async function AdminNodesPage() {
                 {node.region} · {node.cpuCores} vCPU · {formatRam(node.ramMb)} ·{" "}
                 {formatDisk(node.diskMb)}
               </p>
-              <p className="mt-2 text-sm text-emerald-300">
+              <p className="mt-2 text-sm text-cyan-300">
                 {node._count.services} servicios asignados
               </p>
             </div>

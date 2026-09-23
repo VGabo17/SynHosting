@@ -62,7 +62,7 @@ export default async function ServiceTypePage({
         <ul className="mt-4 grid gap-2 text-sm text-slate-300 sm:grid-cols-3">
           {typeHighlights[type].map((highlight) => (
             <li key={highlight} className="flex items-start gap-2">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
+              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400" />
               {highlight}
             </li>
           ))}
@@ -76,7 +76,7 @@ export default async function ServiceTypePage({
           </h3>
           <Link
             href={`/dashboard/new?type=${meta.slug}`}
-            className="rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950"
+            className="rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 px-4 py-2 text-sm font-semibold text-slate-950"
           >
             Añadir
           </Link>
@@ -104,7 +104,7 @@ export default async function ServiceTypePage({
             >
               <p className="font-semibold">{plan.name}</p>
               <p className="mt-1 text-sm text-slate-400">{plan.description}</p>
-              <p className="mt-3 text-lg font-bold text-emerald-300">
+              <p className="mt-3 text-lg font-bold text-cyan-300">
                 {formatPrice(plan.priceCents)}
                 <span className="text-xs font-normal text-slate-400">/mes</span>
               </p>
