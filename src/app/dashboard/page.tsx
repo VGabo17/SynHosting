@@ -49,7 +49,7 @@ export default async function DashboardPage() {
           <h2 className="text-lg font-semibold">Tus servicios</h2>
           <Link
             href="/dashboard/new"
-            className="rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950"
+            className="rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 px-4 py-2 text-sm font-semibold text-slate-950"
           >
             Nuevo servicio
           </Link>
@@ -63,7 +63,7 @@ export default async function DashboardPage() {
             </p>
             <Link
               href="/dashboard/new"
-              className="mt-6 inline-block rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 px-5 py-2.5 text-sm font-semibold text-slate-950"
+              className="mt-6 inline-block rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 px-5 py-2.5 text-sm font-semibold text-slate-950"
             >
               Crear servicio
             </Link>
@@ -89,11 +89,11 @@ export default async function DashboardPage() {
               <Link
                 key={type}
                 href={`/dashboard/${meta.slug}`}
-                className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-emerald-400/30"
+                className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-cyan-400/30"
               >
                 <p className="font-semibold">{meta.label}</p>
                 <p className="mt-1 text-sm text-slate-400">{meta.tagline}</p>
-                <p className="mt-4 text-sm text-emerald-300">
+                <p className="mt-4 text-sm text-cyan-300">
                   {count} {count === 1 ? "servicio" : "servicios"}
                 </p>
               </Link>

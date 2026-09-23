@@ -16,7 +16,7 @@ import {
 } from "@/lib/services";
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-2.5 text-sm outline-none transition placeholder:text-slate-500 focus:border-emerald-400/60";
+  "w-full rounded-xl border border-white/10 bg-slate-950/60 px-4 py-2.5 text-sm outline-none transition placeholder:text-slate-500 focus:border-cyan-400/60";
 
 function Field({
   label,
@@ -36,9 +36,11 @@ function Field({
 export function NewServiceForm({
   plans,
   defaultType,
+  defaultPlanId,
 }: {
   plans: Plan[];
   defaultType: ServiceType;
+  defaultPlanId?: string;
 }) {
   const [state, formAction] = useActionState<ServiceFormState, FormData>(
     createServiceAction,
@@ -46,7 +48,9 @@ export function NewServiceForm({
   );
   const [type, setType] = useState<ServiceType>(defaultType);
   const typePlans = plans.filter((plan) => plan.type === type);
-  const [planId, setPlanId] = useState<string>(typePlans[0]?.id ?? "");
+  const [planId, setPlanId] = useState<string>(
+    defaultPlanId ?? typePlans[0]?.id ?? "",
+  );
 
   function changeType(next: ServiceType) {
     setType(next);
@@ -78,7 +82,7 @@ export function NewServiceForm({
                 onClick={() => changeType(option)}
                 className={`rounded-2xl border p-4 text-left transition ${
                   type === option
-                    ? "border-emerald-400/50 bg-emerald-400/10"
+                    ? "border-cyan-400/50 bg-cyan-400/10"
                     : "border-white/10 bg-white/[0.03] hover:border-white/25"
                 }`}
               >
@@ -107,7 +111,7 @@ export function NewServiceForm({
                 onClick={() => setPlanId(plan.id)}
                 className={`rounded-2xl border p-4 text-left transition ${
                   planId === plan.id
-                    ? "border-emerald-400/50 bg-emerald-400/10"
+                    ? "border-cyan-400/50 bg-cyan-400/10"
                     : "border-white/10 bg-white/[0.03] hover:border-white/25"
                 }`}
               >
@@ -115,7 +119,7 @@ export function NewServiceForm({
                 <p className="mt-1 text-xs text-slate-400">
                   {plan.cpuCores} vCPU · {formatRam(plan.ramMb)}
                 </p>
-                <p className="mt-2 text-sm font-bold text-emerald-300">
+                <p className="mt-2 text-sm font-bold text-cyan-300">
                   {formatPrice(plan.priceCents)}
                   <span className="text-xs font-normal text-slate-400">
                     /mes

@@ -56,7 +56,7 @@ export default async function AdminOverviewPage() {
           <h2 className="font-semibold">Últimos servicios creados</h2>
           <Link
             href="/admin/services"
-            className="text-sm text-emerald-400 hover:underline"
+            className="text-sm text-cyan-400 hover:underline"
           >
             Ver todos
           </Link>
@@ -78,7 +78,7 @@ export default async function AdminOverviewPage() {
                   <td className="py-3">
                     <Link
                       href={`/dashboard/services/${service.id}`}
-                      className="hover:text-emerald-300"
+                      className="hover:text-cyan-300"
                     >
                       {service.name}
                     </Link>

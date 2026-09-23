@@ -23,15 +23,16 @@ body {
 }
 
 ::selection {
-  background: rgba(52, 211, 153, 0.3);
+  background: rgba(139, 92, 246, 0.35);
 }
 
 .glow-grid {
   background-image:
-    radial-gradient(60% 50% at 50% 0%, rgba(16, 185, 129, 0.18), transparent 70%),
+    radial-gradient(55% 45% at 20% 0%, rgba(34, 211, 238, 0.18), transparent 70%),
+    radial-gradient(55% 45% at 80% 0%, rgba(139, 92, 246, 0.2), transparent 70%),
     linear-gradient(to right, rgba(148, 163, 184, 0.06) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
-  background-size: 100% 100%, 56px 56px, 56px 56px;
+  background-size: 100% 100%, 100% 100%, 56px 56px, 56px 56px;
 }
 
 .card {

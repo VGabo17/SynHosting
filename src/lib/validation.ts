@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ServiceType } from "@prisma/client";
+import { PlanTier, ServiceType } from "@prisma/client";
 
 export const registerSchema = z
   .object({
@@ -44,6 +44,7 @@ export const createServiceSchema = z.object({
 
 export const planSchema = z.object({
   name: z.string().trim().min(2),
+  tier: z.nativeEnum(PlanTier).default(PlanTier.BUDGET),
   slug: z
     .string()
     .trim()

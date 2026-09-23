@@ -27,6 +27,10 @@ npm run dev
 
 La app queda en `http://localhost:3000`.
 
+Si la sirves detrás de un proxy o túnel con otro dominio, añade ese host a `ALLOWED_ORIGINS`
+(separado por comas) para que Next.js acepte las Server Actions de login, registro y alta de
+servicios.
+
 Credenciales del seed (configurables con `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD`):
 
 - Email: `admin@synhosting.net`

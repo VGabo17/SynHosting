@@ -18,6 +18,11 @@ enum ServiceType {
   TELEGRAM_BOT
 }
 
+enum PlanTier {
+  BUDGET
+  PREMIUM
+}
+
 enum ServiceStatus {
   PROVISIONING
   RUNNING
@@ -88,6 +93,7 @@ model Plan {
   slug        String      @unique
   name        String
   type        ServiceType
+  tier        PlanTier    @default(BUDGET)
   description String
   priceCents  Int
   cpuCores    Float
